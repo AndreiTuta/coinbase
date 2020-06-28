@@ -16,10 +16,9 @@ class Wallet:
                     self.__dict__['native_balance_currency'] = val['currency']
 
 
-    def print_to_csv(self):
-        sequence = [self.__dict__['id'],self.__dict__['name'], self.__dict__['balance'], self.__dict__['currency'], self.__dict__['native_balance'], self.__dict__['native_balance_currency']]
-        line = ', '.join(sequence)
-        return line
+    def get_sequence(self):
+        sequence = [self.__dict__['name'], self.__dict__['balance'], self.__dict__['currency'], self.__dict__['native_balance'], self.__dict__['native_balance_currency']]
+        return sequence
 
     def print(self):
         return vars(self)
