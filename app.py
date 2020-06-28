@@ -21,14 +21,12 @@ def coinbase_call():
     # create a client
     client = Client(api_key, api_secret)
     # get all accounts
-    return client.get_accounts()
+    return client.get_account(details_dict['account_id'])
 
-accounts = coinbase_call()
-
-for cb_wallet in accounts.data:
-     wallet = Wallet(cb_wallet)
-     # TODO: add current time
-     # csv print
-     print(wallet.print_to_csv())
-     # pretty print
-     #pprint(wallet.print())
+cb_wallet = coinbase_call()
+wallet = Wallet(cb_wallet)
+# TODO: add current time
+# csv print
+print(wallet.print_to_csv())
+# pretty print
+#pprint(wallet.print())
