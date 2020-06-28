@@ -3,9 +3,10 @@ import json
 import urllib
 import configparser
 import time
-
 #coinbase classes
 from coinbase.wallet.client import Client
+# pretty pprint
+from pprint import pprint
 # custom classes
 from wallet import Wallet
 
@@ -23,10 +24,11 @@ def coinbase_call():
     return client.get_accounts()
 
 accounts = coinbase_call()
+
 for cb_wallet in accounts.data:
-    print(cb_wallet.items())
-    # for detail in cb_wallet.items():
-        # print(detail)
-     # wallet = Wallet(cb_wallet)
-     # current = time.time
-     # wallet.print_wallet(current)
+     wallet = Wallet(cb_wallet)
+     # TODO: add current time
+     # csv print
+     print(wallet.print_to_csv())
+     # pretty print
+     #pprint(wallet.print())

@@ -1,20 +1,25 @@
 class Wallet:
+    # TODO: make all columns constats
     def __init__(self,cb_wallet):
-        self.allow_deposits= cb_wallet["allow_deposits"],
-        self.allow_withdrawals= cb_wallet["allow_withdrawals"],
-        self.balance= cb_wallet["balance"],
-        self.created_at= cb_wallet["created_at"],
-        self.currency= cb_wallet["currency"],
-        self.id= cb_wallet["id"],
-        self.name= cb_wallet["name"],
-        self.native_balance= cb_wallet["native_balance"],
-        self.primary= cb_wallet["primary"],
-        self.resource= cb_wallet["resource"],
-        self.resource_path= cb_wallet["resource_path"],
-        self.type= cb_wallet["type"],
-        self.updated_at= cb_wallet["updated_at"]
+        self.__dict__.update(cb_wallet)
+        self.__dict__.pop('balance', None)
+        self.__dict__.pop('native_balance', None)
+        for k, v in cb_wallet.items():
+            if isinstance(v, dict):
+                val ={}
+                for k,v in v.items():
+                    val[k] = v
+                if(val['currency'] =='ETH'):
+                    self.__dict__['balance'] = val['amount']
+                else:
+                    self.__dict__['native_balance'] = val['amount']
+                    self.__dict__['native_balance_currency'] = val['currency']
 
-    def print_wallet(self, current):
-        sequence = [str(current), str(self.name)]
+
+    def print_to_csv(self):
+        sequence = [self.__dict__['id'],self.__dict__['name'], self.__dict__['balance'], self.__dict__['currency'], self.__dict__['native_balance'], self.__dict__['native_balance_currency']]
         line = ', '.join(sequence)
-        print(line)
+        return line
+
+    def print(self):
+        return vars(self)
