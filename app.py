@@ -25,6 +25,10 @@ details_dict = dict(config.items('coinbase'))
 modes = ['dev', 'active', 'info']
 timer_options = ['1', '10', '60']
 
+PATH = './results.csv'
+CSV_COLS = ('Time','Name', 'Amount', 'Currency', 'Invested amount', 'Invested currency', 'Buy price', 'Sell price')
+
+
 def init_client():
     # get api_key and secret
     api_key = details_dict['api_key']
@@ -48,7 +52,7 @@ def check_balance(client):
     wallet = Wallet(cb_wallet)
     return wallet.get_sequence()
 
-def display_stats(client, current):
+def generate_stats(client, current):
     seq = check_balance(client)
     # add time
     seq.insert(0, get_current_hour_minutes_seconds(current))
@@ -56,7 +60,8 @@ def display_stats(client, current):
     seq.insert(len(seq) + 1, str(coinbase_buy_price(client, seq[3], seq[5])))
     # add sell price
     seq.insert(len(seq) + 1, str(coinbase_sell_price(client, seq[3], seq[5])))
-    print(', '.join(seq))
+    line = ', '.join(seq)
+    return line + '\n'
 
 def handle_arg(x):
     timer = timer_options[0]
@@ -73,13 +78,25 @@ def handle_arg(x):
                 print('Undefined ' + x)
     return [timer, mode]
 
+def write_results(sample, exists):
+    fo = open(PATH, 'a')
+    index = 0
+    for response in sample:
+        fo.write(response)
+        index +=1
+    fo.close
+
 def main(argv):
     argv_processed = list(filter(lambda x : handle_arg(x) , argv))
     print(argv_processed)
     timer = parse_string_to_int(argv_processed[0])
     mode = argv_processed[1]
+    exists = bool(argv_processed[2])
+    if(exists):
+        print('Exists - ' + argv_processed[2])
+    response_list =[]
     hits = 0
-    while True:
+    while hits < 2:
         current = datetime.datetime.now()
         if(mode=='dev'):
             print('deving...')
@@ -87,10 +104,12 @@ def main(argv):
             client = init_client()
             hits += 1
             print('Strike ' + str(hits))
-            display_stats(client, current)
+            response_list.append(generate_stats(client, current))
         print('Sleeping from ' + get_current_hour_minutes_seconds(current) +' for '+ str(timer * 60) + ' seconds')
         time.sleep(timer * 60)
         print('Sleept until ' + get_current_hour_minutes_seconds(current))
+
+    write_results(response_list, exists)
 
 if __name__ == '__main__':
     main(sys.argv[1:])
