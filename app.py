@@ -25,9 +25,16 @@ details_dict = dict(config.items('coinbase'))
 modes = ['dev', 'active', 'info']
 timer_options = ['1', '10', '60']
 
+<<<<<<< HEAD
 PATH = './results/'
 CSV_COLS = ('Time','Name', 'Amount', 'Currency', 'Won amount', 'Won Currency', 'Buy price', 'Sell price')
 
+=======
+# load config from file
+config = configparser.RawConfigParser()
+config.read('config.ini')
+details_dict = dict(config.items('coinbase'))
+>>>>>>> 09d7ade07fb6b13a06a234e211055694c75b6290
 
 def init_client():
     # get api_key and secret
