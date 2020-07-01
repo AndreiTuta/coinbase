@@ -13,7 +13,7 @@ from pprint import pprint
 # custom classes
 from wallet import Wallet
 # custom functions
-from utils import parse_string_to_int, get_current_hour_minutes_seconds
+from utils import parse_string_to_int, get_current_hour_minutes_seconds, get_current_hour_minutes
 
 # TODO: move to separate file
 # GLOBAL config
@@ -25,8 +25,8 @@ details_dict = dict(config.items('coinbase'))
 modes = ['dev', 'active', 'info']
 timer_options = ['1', '10', '60']
 
-PATH = './results.csv'
-CSV_COLS = ('Time','Name', 'Amount', 'Currency', 'Invested amount', 'Invested currency', 'Buy price', 'Sell price')
+PATH = './results/'
+CSV_COLS = ('Time','Name', 'Amount', 'Currency', 'Won amount', 'Won Currency', 'Buy price', 'Sell price')
 
 
 def init_client():
@@ -55,14 +55,18 @@ def check_balance(client):
 def generate_stats(client, current):
     seq = check_balance(client)
     # add time
-    seq.insert(0, get_current_hour_minutes_seconds(current))
+    seq.insert(0, get_current_hour_minutes(current))
     # add buy price
     seq.insert(len(seq) + 1, str(coinbase_buy_price(client, seq[3], seq[5])))
     # add sell price
     seq.insert(len(seq) + 1, str(coinbase_sell_price(client, seq[3], seq[5])))
-    line = ', '.join(seq)
+    line = ','.join(seq)
+    print(line)
     return line + '\n'
 
+def generate_name(current):
+    return 'result'+str(current.day)+'.csv'
+    
 def handle_arg(x):
     timer = timer_options[0]
     mode = modes[0]
@@ -78,38 +82,37 @@ def handle_arg(x):
                 print('Undefined ' + x)
     return [timer, mode]
 
-def write_results(sample, exists):
-    fo = open(PATH, 'a')
+def write_results(sample, current):
+    fo = open(PATH + generate_name(current), 'a')
     index = 0
     for response in sample:
         fo.write(response)
         index +=1
     fo.close
-
-def main(argv):
+#   
+def run(argv):
     argv_processed = list(filter(lambda x : handle_arg(x) , argv))
     print(argv_processed)
     timer = parse_string_to_int(argv_processed[0])
     mode = argv_processed[1]
-    exists = bool(argv_processed[2])
-    if(exists):
-        print('Exists - ' + argv_processed[2])
-    response_list =[]
-    hits = 0
-    while hits < 2:
+    write_hits = parse_string_to_int(argv_processed[2])
+    write_groups = parse_string_to_int(argv_processed[3])
+    for i in range(write_groups):
+        response_list =[]
+        hits = 0
         current = datetime.datetime.now()
-        if(mode=='dev'):
-            print('deving...')
-        else:
-            client = init_client()
+        while hits < write_hits:
+            client = init_client()            
+            in_current = datetime.datetime.now()
             hits += 1
-            print('Strike ' + str(hits))
             response_list.append(generate_stats(client, current))
-        print('Sleeping from ' + get_current_hour_minutes_seconds(current) +' for '+ str(timer * 60) + ' seconds')
-        time.sleep(timer * 60)
-        print('Sleept until ' + get_current_hour_minutes_seconds(current))
+            print('Sleeping from ' + get_current_hour_minutes_seconds(in_current) +' for '+ str(timer * 30) + ' seconds')
+            if(mode=='dev'):
+                print('deving...')
+            else:
+                time.sleep(timer * 30)
+            print('Sleept until ' + get_current_hour_minutes_seconds(current))
+        print('Writing results ' + str(i))
+        write_results(response_list, current)
 
-    write_results(response_list, exists)
-
-if __name__ == '__main__':
-    main(sys.argv[1:])
+run(['1','active','5', '120'])
