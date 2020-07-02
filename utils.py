@@ -10,8 +10,16 @@ def parse_string_to_bool(string):
     return bool(string)
 
 def get_current_hour_minutes_seconds(current):
-    return str(current.hour) + ':' + str(current.minute)+ ':' + str(current.second)
+    if(current.minute < 10): 
+        minute = '0' + str(current.minute)
+    else:
+        minute = str(current.minute)
+    return str(current.hour) + ':' + minute + ':' + str(current.second)
 
 
 def get_current_hour_minutes(current):
-    return str(current.hour) + ':' + str(current.minute)
+    if(current.minute < 10): 
+        minute = '0' + str(current.minute)
+    else:
+        minute = str(current.minute)
+    return str(current.hour) + ':' + minute

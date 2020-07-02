@@ -25,16 +25,9 @@ details_dict = dict(config.items('coinbase'))
 modes = ['dev', 'active', 'info']
 timer_options = ['1', '10', '60']
 
-<<<<<<< HEAD
 PATH = './results/'
 CSV_COLS = ('Time','Name', 'Amount', 'Currency', 'Won amount', 'Won Currency', 'Buy price', 'Sell price')
 
-=======
-# load config from file
-config = configparser.RawConfigParser()
-config.read('config.ini')
-details_dict = dict(config.items('coinbase'))
->>>>>>> 09d7ade07fb6b13a06a234e211055694c75b6290
 
 def init_client():
     # get api_key and secret
@@ -60,13 +53,20 @@ def check_balance(client):
     return wallet.get_sequence()
 
 def generate_stats(client, current):
+    if client is None:
+      client = init_client() 
     seq = check_balance(client)
     # add time
     seq.insert(0, get_current_hour_minutes(current))
     # add buy price
-    seq.insert(len(seq) + 1, str(coinbase_buy_price(client, seq[3], seq[5])))
+    seq.insert(len(seq) + 1, str(coinbase_buy_price(client, seq[2], seq[4])))
     # add sell price
-    seq.insert(len(seq) + 1, str(coinbase_sell_price(client, seq[3], seq[5])))
+    seq.insert(len(seq) + 1, str(coinbase_sell_price(client, seq[2], seq[4])))
+    print(seq)
+    # then remove the currencies
+    seq.pop(2)
+    # TODO: LOOOOL
+    seq.pop(3)
     line = ','.join(seq)
     print(line)
     return line + '\n'
@@ -75,7 +75,9 @@ def generate_name(current):
     return 'result'+str(current.day)+'.csv'
     
 def handle_arg(x):
-    timer = timer_options[0]
+    timer = 0
+    write_hits = 0
+    write_groups = 0
     mode = modes[0]
     if (isinstance(x, str)):
         if(x in modes):
@@ -83,11 +85,20 @@ def handle_arg(x):
             mode = x
         else:
              if (isinstance(parse_string_to_int(x), int)):
-                 print('Time set to ' + x)
-                 timer = x
+                if(timer == 0):
+                    print('Time set to ' + x)
+                    timer = x
+                else:
+                    if(write_hits == 0):
+                        print('Write Hits set to ' + x)
+                        write_hits = x
+                    else:
+                        if(write_groups == 0):
+                            print('Write groups set to ' + x)
+                            write_groups = x
              else:
                 print('Undefined ' + x)
-    return [timer, mode]
+    return [timer, mode, write_hits, write_groups]
 
 def write_results(sample, current):
     fo = open(PATH + generate_name(current), 'a')
@@ -96,8 +107,17 @@ def write_results(sample, current):
         fo.write(response)
         index +=1
     fo.close
-#   
-def run(argv):
+
+    """
+    [ 
+    
+    Writes down as csv the result of 
+    (time (minutes) x api calls (one, then sleep for time )) 
+    in chuncks of write_groups
+    
+    ]
+    """
+def generate_csv(argv):
     argv_processed = list(filter(lambda x : handle_arg(x) , argv))
     print(argv_processed)
     timer = parse_string_to_int(argv_processed[0])
@@ -108,18 +128,19 @@ def run(argv):
         response_list =[]
         hits = 0
         current = datetime.datetime.now()
-        while hits < write_hits:
+        while hits <= write_hits:
             client = init_client()            
             in_current = datetime.datetime.now()
             hits += 1
-            response_list.append(generate_stats(client, current))
-            print('Sleeping from ' + get_current_hour_minutes_seconds(in_current) +' for '+ str(timer * 30) + ' seconds')
+            response_list.append(generate_stats(client, in_current))
+            print('Sleeping from ' + get_current_hour_minutes_seconds(in_current) +' for '+ str(timer * 60) + ' seconds')
             if(mode=='dev'):
                 print('deving...')
             else:
-                time.sleep(timer * 30)
+                time.sleep(timer * 60)
             print('Sleept until ' + get_current_hour_minutes_seconds(current))
-        print('Writing results ' + str(i))
+        print('Writing results ' + str(i + 1))
         write_results(response_list, current)
 
-run(['1','active','5', '120'])
+# write_groups x (time x api_calls)
+#generate_csv(['2','active','15', '10'])

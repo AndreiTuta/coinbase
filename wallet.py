@@ -17,7 +17,7 @@ class Wallet:
 
 
     def get_sequence(self):
-        sequence = [self.__dict__['name'], self.__dict__['balance'], self.__dict__['currency'], self.__dict__['native_balance'], self.__dict__['native_balance_currency']]
+        sequence = [self.__dict__['balance'], self.__dict__['currency'], self.__dict__['native_balance'], self.__dict__['native_balance_currency']]
         return sequence
 
     def print(self):
