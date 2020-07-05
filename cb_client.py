@@ -1,5 +1,7 @@
 #coinbase classes
 from coinbase.wallet.client import Client
+# custom classes
+import wallet
 
 class CoinBaseClient:
     def __init__(self,details_dict):
@@ -9,3 +11,7 @@ class CoinBaseClient:
     
     def get_client_accounts(self):
         return self.client.get_accounts()
+    
+    def get_client_wallets(self):
+        accounts = self.client.get_accounts()['data']
+        return accounts
