@@ -7,7 +7,7 @@ from cb_wallet import Wallet
 class CoinBaseClient:
     # internal use
     def get_client_accounts(self):
-        return self.client.get_accounts()
+        return self.client.get_accounts()['data']
 
         """
         params order: coin
@@ -32,7 +32,7 @@ class CoinBaseClient:
                     coinbase_buy_price, coinbase_sell_price)
                 exachange_rates = self.client.get_exchange_rates(currency=coin)[
                     'rates']
-                account_wallet.add_rates(exachange_rates)
+                account_wallet.add_rates(exachange_rates, ['ETH', 'BTC', 'GBP'])
                 currency_wallet.append(account_wallet.to_str())
         return currency_wallet
 
@@ -41,8 +41,7 @@ class CoinBaseClient:
         # create a client
         self.client = Client(
             details_dict['api_key'], details_dict['api_secret'])
-        self.accounts = self.get_client_accounts()['data']
-        self.wallets = self.get_client_wallets()
+        self.accounts = self.get_client_accounts()
 
     # external use
     def get_client_wallets(self):
