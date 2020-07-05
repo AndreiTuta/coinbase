@@ -13,7 +13,7 @@ from pprint import pprint
 # custom classes
 from wallet import Wallet
 # custom functions
-from utils import parse_string_to_int, get_current_hour_minutes_seconds, get_current_hour_minutes
+from utils import parse_string_to_int, get_current_hour_minutes_seconds, get_current_hour_minutes, write_results
 
 # TODO: move to separate file
 # GLOBAL config
@@ -71,43 +71,6 @@ def generate_stats(client, current):
     print(line)
     return line + '\n'
 
-def generate_name(current):
-    return 'result'+str(current.day)+'.csv'
-    
-def handle_arg(x):
-    timer = 0
-    write_hits = 0
-    write_groups = 0
-    mode = modes[0]
-    if (isinstance(x, str)):
-        if(x in modes):
-            print('Mode set to ' + x)
-            mode = x
-        else:
-             if (isinstance(parse_string_to_int(x), int)):
-                if(timer == 0):
-                    print('Time set to ' + x)
-                    timer = x
-                else:
-                    if(write_hits == 0):
-                        print('Write Hits set to ' + x)
-                        write_hits = x
-                    else:
-                        if(write_groups == 0):
-                            print('Write groups set to ' + x)
-                            write_groups = x
-             else:
-                print('Undefined ' + x)
-    return [timer, mode, write_hits, write_groups]
-
-def write_results(sample, current):
-    fo = open(PATH + generate_name(current), 'a')
-    index = 0
-    for response in sample:
-        fo.write(response)
-        index +=1
-    fo.close
-
     """
     [ 
     
@@ -117,13 +80,7 @@ def write_results(sample, current):
     
     ]
     """
-def generate_csv(argv):
-    argv_processed = list(filter(lambda x : handle_arg(x) , argv))
-    print(argv_processed)
-    timer = parse_string_to_int(argv_processed[0])
-    mode = argv_processed[1]
-    write_hits = parse_string_to_int(argv_processed[2])
-    write_groups = parse_string_to_int(argv_processed[3])
+def generate_csv(timer, mode, write_hits, write_groups):
     for i in range(write_groups):
         response_list =[]
         hits = 0
@@ -138,9 +95,9 @@ def generate_csv(argv):
                 print('deving...')
             else:
                 time.sleep(timer * 60)
-            print('Sleept until ' + get_current_hour_minutes_seconds(current))
         print('Writing results ' + str(i + 1))
-        write_results(response_list, current)
+        write_results(PATH, response_list, current)
 
 # write_groups x (time x api_calls)
-#generate_csv(['2','active','15', '10'])
+if __name__ =="__main__":
+    generate_csv(2,'active',15, 10)
