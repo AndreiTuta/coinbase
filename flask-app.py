@@ -1,36 +1,29 @@
 from flask import Flask, Response, request
 
-import datetime
-from cb import generate_stats
+import configparser
+import json
+
+from cb_client import CoinBaseClient
 
 app = Flask(__name__)
 
-@app.route('/')
-def home():
-  return "<h1> Hello World </h1>"
 
-  """
-  - now req param means making an API call to get current data
+# load config from file
+config = configparser.RawConfigParser()
+config.read('config.ini')
+details_dict = dict(config.items('coinbase'))
 
-  Returns:
-      [type]: [description]
-  """
-@app.route("/get-result-csv/<date_csv>", methods=['GET'])
-def getPlotCSV(date_csv):
-    now = bool(request.args.get('now'))
-    if(now):
-          return Response(
-      str(now),
-      mimetype="text/csv")
-    else:               
-        filepath = './results/result' + str(date_csv) + '.csv'
-        with open(filepath) as fp:
-          csv = fp.read()
-        return Response(
-        csv,
-        mimetype="text/csv",
-        headers={"Content-disposition":
-                  "attachment; filename=results.csv"})
+client = CoinBaseClient(details_dict)
 
-if __name__ =="__main__":
-  app.run(debug=True,port=8080) 
+@app.route('/wallets')
+def wallets_endpoint():
+    wallet_data = client.get_client_wallets(True)
+    return Response(json.dumps(wallet_data),  mimetype='application/json')
+
+@app.route('/wallet/<currency>')
+def wallet_endpoint(currency):
+    wallet_data = client.get_client_wallet(currency)
+    return Response(json.dumps(wallet_data),  mimetype='application/json')
+
+if __name__ == "__main__":
+    app.run(debug=True, port=8080)
