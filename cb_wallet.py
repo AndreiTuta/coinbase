@@ -1,13 +1,13 @@
 class Wallet:
     # default constructor
-    def __init__(self, cb_wallet):
-        self.__dict__.update(cb_wallet)
+    def __init__(self, cb_account):
+        self.__dict__.update(cb_account)
     # currency based wallet
 
-    def get_currency(self, currency):
+    def has_currency(self, currency):
         if(self.__dict__['balance']['currency'].lower() == currency.lower()):
-            return self
-        return None
+            return True
+        return False
 
     def to_str(self):
         return vars(self)

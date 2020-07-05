@@ -9,19 +9,20 @@ class CoinBaseClient:
     def get_client_accounts(self):
         return self.client.get_accounts()
 
-    def fetch_accounts(self):
-        self.wallets = list()
-        accounts = self.get_client_accounts()['data']
-        for account in accounts:
-            account_wallet = Wallet(account).to_str()
-            self.wallets.append(account_wallet)
+        """
+        params order: coin
+        """
 
-    def fetch_account(self, coin):
-        currency_wallets = list()
-        accounts = self.get_client_accounts()['data']
-        for account in accounts:
+    def get_wallets(self, *args, **kwargs):
+        # todo: change all functions to have an arg type and a return type
+        currency_wallet = list()
+        for account in self.accounts:
+            if(len(args) != 0):
+                coin = args[0]
+            else:
+                coin = account['currency']
             account_wallet = Wallet(account)
-            if(account_wallet.get_currency(coin) is not None):
+            if (account_wallet.has_currency(coin)):
                 # TODO: Move all vars into functions
                 coinbase_buy_price = str(self.client.get_buy_price(
                     currency_pair=coin+'-'+'GBP')['amount'])
@@ -29,23 +30,23 @@ class CoinBaseClient:
                     currency_pair=coin+'-'+'GBP')['amount'])
                 account_wallet.add_prices(
                     coinbase_buy_price, coinbase_sell_price)
-                exachange_rates = self.client.get_exchange_rates(currency=coin)['rates']
+                exachange_rates = self.client.get_exchange_rates(currency=coin)[
+                    'rates']
                 account_wallet.add_rates(exachange_rates)
-                currency_wallets.append(account_wallet.to_str())
-        return currency_wallets
+                currency_wallet.append(account_wallet.to_str())
+        return currency_wallet
 
     # constructor
     def __init__(self, details_dict):
         # create a client
         self.client = Client(
             details_dict['api_key'], details_dict['api_secret'])
-        self.fetch_accounts()
+        self.accounts = self.get_client_accounts()['data']
+        self.wallets = self.get_client_wallets()
 
     # external use
-    def get_client_wallets(self, refresh):
-        if(refresh):
-            self.fetch_accounts()
-        return self.wallets
+    def get_client_wallets(self):
+        return self.get_wallets()
 
-    def get_client_wallet(self, currency):
-        return self.fetch_account(currency)
+    def get_client_wallet(self, coin):
+        return self.get_wallets(coin)
