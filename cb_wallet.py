@@ -1,8 +1,8 @@
 class Wallet:
     # default constructor
-    def __init__(self, cb_account):
+    def __init__(self, cb_account, fetched):
         self.__dict__.update(cb_account)
-    # currency based wallet
+        self.__dict__['fetched'] = fetched
 
     def has_currency(self, currency):
         if(self.__dict__['balance']['currency'].lower() == currency.lower()):
@@ -30,7 +30,7 @@ class Wallet:
     # external use
 
     """
-        params order: [included coins]
+        params order: [included rates]
     """
 
     def add_rates(self, exachange_rates, *args, **kwargs):
