@@ -1,0 +1,18 @@
+{% extends 'home.html' %}
+{% block container %}
+<div class="top-pad">
+    <h1>{{ wallet['name'] }} </h1>
+    <h1>{{ wallet['currency'] }} </h1>
+    <h1>{{ wallet['balance']['amount'] }} </h1>
+    <h1>{{ wallet['balance']['currency'] }} </h1>
+    <h1>{{ wallet['updated_at'] }} </h1>
+    <h1>{{ wallet['native_balance'] ['amount']}} </h1>
+    <h1>{{ wallet['native_balance'] ['currency']}} </h1>
+    <h1>{{ wallet['fetched'] }} </h1>
+    <h1>{{ wallet['buy_price'] }} </h1>
+    <h1>{{ wallet['sell_price'] }} </h1>
+    <h1>{{ wallet['exachange_rates']['BTC'] }} </h1>
+    <h1>{{ wallet['exachange_rates']['ETH'] }} </h1>
+    <h1>{{ wallet['exachange_rates']['GBP'] }} </h1>
+</div>
+{% endblock %}
