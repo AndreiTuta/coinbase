@@ -23,11 +23,11 @@ def wallets_endpoint():
     return render_template('home.html', wallets=wallet_data)
 
 
-@app.route('/wallet/<currency>')
-def wallet_endpoint(currency):
+@app.route('/wallet/<currency>/<wallet_id>')
+def wallet_endpoint(currency,wallet_id):
     client = CoinBaseClient(details_dict)
     wallet_data = client.get_client_wallet(currency)
-    return render_template('wallet.html', wallet=wallet_data[0])
+    return wallet_data[0]
 
 
 if __name__ == "__main__":
