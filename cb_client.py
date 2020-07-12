@@ -2,7 +2,6 @@
 from coinbase.wallet.client import Client
 # custom classes
 from cb_wallet import Wallet
-
 import datetime
 
 class CoinBaseClient:
@@ -22,7 +21,7 @@ class CoinBaseClient:
                 coin = args[0]
             else:
                 coin = account['currency']
-            account_wallet = Wallet(account, str(datetime.datetime.now()))
+            account_wallet = Wallet(account,datetime.datetime.now(datetime.timezone.utc))
             if (account_wallet.has_currency(coin)):
                 # TODO: Move all vars into functions
                 coinbase_buy_price = str(self.client.get_buy_price(
@@ -31,10 +30,11 @@ class CoinBaseClient:
                     currency_pair=coin+'-'+'GBP')['amount'])
                 account_wallet.add_prices(
                     coinbase_buy_price, coinbase_sell_price)
+                #account_wallet.get_dates_UTC()
                 exachange_rates = self.client.get_exchange_rates(currency=coin)[
                     'rates']
                 account_wallet.add_rates(exachange_rates, self.rates_included)
-                currency_wallet.append(account_wallet.to_str())
+                currency_wallet.append(account_wallet.to_dict())
         return currency_wallet
 
     # constructor

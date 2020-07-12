@@ -25,92 +25,100 @@
           {% set wallet_ex_GPB =wallet['exachange_rates']['GBP'] %}
 
           <div class="row">
-            <div class="col-sm">
+            <div class="col">
               <h1> <a href="{{ url_for('wallet_endpoint', currency=wallet_currency, wallet_id=0) }}">{{ wallet_currency  }}</a> Wallet</h1>
             </div>
           </div>
           <div class="row">
-            <div class="col-sm">
+            <div class="col">
               Wallet currency
             </div>
-            <div class="col-sm">
+            <div class="col">
               {{ wallet_currency }}
             </div>
           </div>
           <div class="row">
-            <div class="col-sm">
+            <div class="col">
               Wallet Amount
             </div>
-            <div class="col-sm">
+            <div class="col">
               {{ wallet_balance_amount }}
             </div>
           </div>
           <div class="row">
-            <div class="col-sm"> Wallet last updated
+            <div class="col"> Wallet last updated
             </div>
-            <div class="col-sm">
+            <div class="col">
               {{ wallet_updated }}
             </div>
           </div>
           <div class="row">
-            <div class="col-sm">
+            <div class="col">
               Wallet native amount
             </div>
-            <div class="col-sm">
+            <div class="col">
               {{ wallet_native_amount }}  {{ wallet_native_currency}}
             </div>
           </div>
           <div class="row">
-            <div class="col-sm"> Wallet fetched
+            <div class="col"> Wallet fetched
             </div>
-            <div class="col-sm">
+            <div class="col">
               {{ wallet_fetched}}
             </div>
           </div>
           <div class="row">
-            <div class="col-sm"> Wallet buy price
+            <div class="col"> Wallet buy price
             </div>
-            <div class="col-sm">
+            <div class="col">
               {{ wallet_buy_price}}
             </div>
           </div>
           <div class="row">
-            <div class="col-sm"> Wallet sell price
+            <div class="col"> Wallet sell price
             </div>
-            <div class="col-sm">
+            <div class="col">
               {{ wallet_sell_price}}
             </div>
           </div>
-          <!-- <div class="row">
+          <div class="row">
             <h4>Wallet exhange rates</h4>
-              
-              <div class="row">
-                <div class="col-sm">
+
+            <!-- TODO: Refactor to fragment
+               <div class="col">
                   BTC
                 </div>
-                <div class="col-sm">
+                <div class="col">
                   {{ wallet_ex_BTC  }}
-                </div>
-              </div>
+                </div> -->
 
-              <div class="row">
-                <div class="col-sm">
-                  ETH
-                </div>
-                <div class="col-sm">
-                  {{ wallet_ex_ETH  }}
-                </div>
+           <div class="container">
+             <div class="row">
+              <div class="col">
+                BTC
               </div>
-
-              <div class="row">
-                <div class="col-sm">
-                  GBP
-                </div>
-                <div class="col-sm">
-                  {{ wallet_ex_GPB  }}
-                </div>
+              <div class="col">
+                {{ wallet_ex_BTC  }}
+              </div>              
+            </div>
+            <div class="row">
+              <div class="col">
+                ETH
               </div>
-          </div> -->
+              <div class="col">
+                {{ wallet_ex_ETH  }}
+              </div>             
+            </div>
+            <div class="row">
+              <div class="col">
+                GBP
+              </div>
+              <div class="col">
+                {{ wallet_ex_GPB  }}
+              </div>              
+            </div>
+           </div>
+          </div>
         </div>
 
       </div>
