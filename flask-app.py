@@ -20,7 +20,7 @@ details_dict = dict(config.items('coinbase'))
 def wallets_endpoint():
     client = CoinBaseClient(details_dict)
     wallet_data = client.get_client_wallets()
-    return render_template('home.html', wallets=wallet_data)
+    return render_template('wallet.html', wallets=wallet_data)
 
 
 @app.route('/wallet/<currency>/<wallet_id>')

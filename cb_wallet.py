@@ -50,6 +50,8 @@ class Wallet:
     """
 
     def add_rates(self, exachange_rates, *args, **kwargs):
-        filtered_exchange_rates = {key: value for (
+        
+        filtered_exchange_rates = {key: value[:8] for (
             key, value) in exachange_rates.items() if (key) in args[0]}
+        print(filtered_exchange_rates)
         self.__dict__['exachange_rates'] = filtered_exchange_rates
