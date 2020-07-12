@@ -1,0 +1,131 @@
+{% extends 'base.html' %}
+{% block container %}
+{% for wallet in wallets  %}
+    
+      <div class="row">
+
+        <div class="container">
+
+          {% set wallet_name = wallet['name'] %}
+          {% set wallet_currency =wallet['currency'] %}
+          {% set wallet_balance_amount =wallet['balance']['amount'] %}
+          {% set wallet_balance_currency =wallet['balance']['currency'] %}
+          {% set wallet_updated =wallet['updated_at'] %}
+          {% set wallet_native_amount =wallet['native_balance'] ['amount']%}
+          {% set wallet_native_currency =wallet['native_balance'] ['currency']%}
+          {% set wallet_fetched =wallet['fetched'] %}
+          {% set wallet_buy_price =wallet['buy_price'] %}
+          {% set wallet_sell_price =wallet['sell_price'] %}
+          {% set wallet_ex_BTC =wallet['exachange_rates']['BTC'] %}
+          {% set wallet_ex_ETH =wallet['exachange_rates']['ETH'] %}
+          {% set wallet_ex_GPB =wallet['exachange_rates']['GBP'] %}
+          {% set wallet_ex_DAI =wallet['exachange_rates']['DAI'] %}
+
+          <div class="row">
+            <div class="col">
+              <h1> <a href="{{ url_for('wallet_endpoint', currency=wallet_currency, wallet_id=0) }}">{{ wallet_currency  }}</a> Wallet</h1>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col">
+              Wallet currency
+            </div>
+            <div class="col">
+              {{ wallet_currency }}
+            </div>
+          </div>
+          <div class="row">
+            <div class="col">
+              Wallet Amount
+            </div>
+            <div class="col">
+              {{ wallet_balance_amount }}
+            </div>
+          </div>
+          <div class="row">
+            <div class="col"> Wallet last updated
+            </div>
+            <div class="col">
+              {{ wallet_updated }}
+            </div>
+          </div>
+          <div class="row">
+            <div class="col">
+              Wallet native amount
+            </div>
+            <div class="col">
+              {{ wallet_native_amount }}  {{ wallet_native_currency}}
+            </div>
+          </div>
+          <div class="row">
+            <div class="col"> Wallet fetched
+            </div>
+            <div class="col">
+              {{ wallet_fetched}}
+            </div>
+          </div>
+          <div class="row">
+            <div class="col"> Wallet buy price
+            </div>
+            <div class="col">
+              {{ wallet_buy_price}}
+            </div>
+          </div>
+          <div class="row">
+            <div class="col"> Wallet sell price
+            </div>
+            <div class="col">
+              {{ wallet_sell_price}}
+            </div>
+          </div>
+          <div class="row">
+            <h4>Wallet exhange rates</h4>
+
+            <!-- TODO: Refactor to fragment
+               <div class="col">
+                  BTC
+                </div>
+                <div class="col">
+                  {{ wallet_ex_BTC  }}
+                </div> -->
+
+           <div class="container">
+             <div class="row">
+              <div class="col">
+                BTC
+              </div>
+              <div class="col">
+                {{ wallet_ex_BTC  }}
+              </div>              
+            </div>
+            <div class="row">
+              <div class="col">
+                ETH
+              </div>
+              <div class="col">
+                {{ wallet_ex_ETH  }}
+              </div>             
+            </div>
+            <div class="row">
+              <div class="col">
+                GBP
+              </div>
+              <div class="col">
+                {{ wallet_ex_GPB  }}
+              </div>              
+            </div><div class="row">
+              <div class="col">
+                DAI
+              </div>
+              <div class="col">
+                {{ wallet_ex_DAI  }}
+              </div>              
+            </div>
+           </div>
+           
+          </div>
+        </div>
+
+      </div>
+    {% endfor %}
+{% endblock %}
