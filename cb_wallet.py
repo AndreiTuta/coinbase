@@ -1,3 +1,5 @@
+import json
+
 class Wallet:
     
     
@@ -5,7 +7,7 @@ class Wallet:
     # default constructor
     def __init__(self, cb_account, fetched):
         self.__dict__.update(cb_account)
-        self.__dict__['fetched'] = fetched
+        self.__dict__['fetched'] = fetched.strftime("%m/%d/%Y, %H:%M:%S")
 
     def has_currency(self, currency):
         if(self.__dict__['balance']['currency'].lower() == currency.lower()):
@@ -55,3 +57,6 @@ class Wallet:
             key, value) in exachange_rates.items() if (key) in args[0]}
         print(filtered_exchange_rates)
         self.__dict__['exachange_rates'] = filtered_exchange_rates
+        
+    def as_json(self):
+        return json.dumps(__self__)
