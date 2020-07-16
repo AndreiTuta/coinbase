@@ -1,5 +1,7 @@
 import json
 
+from file_util import write_as_csv
+
 class Wallet:
     
     
@@ -51,11 +53,10 @@ class Wallet:
         params order: [included rates]
     """
 
-    def add_rates(self, exachange_rates, *args, **kwargs):
-        
+    def add_rates(self, exachange_rates, *args, **kwargs):        
         filtered_exchange_rates = {key: value[:8] for (
             key, value) in exachange_rates.items() if (key) in args[0]}
-        print(filtered_exchange_rates)
+        write_as_csv(filtered_exchange_rates)
         self.__dict__['exachange_rates'] = filtered_exchange_rates
         
     def as_json(self):

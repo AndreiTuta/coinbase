@@ -6,7 +6,6 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link href="{{ url_for('static', filename='css/bootstrap.min.css') }}" rel="stylesheet">
-  <link href="{{ url_for('static', filename='css/main.css') }}" rel="stylesheet">
 </head>
 
 <body>
@@ -32,8 +31,6 @@
                 Basic panel example
               </div>
             </div>
-          </div>
-          <div class="row">
             <div class="col">
               <div class="card-body">
                 Basic panel example
@@ -46,8 +43,6 @@
                 Basic panel example
               </div>
             </div>
-          </div>
-          <div class="row">
             <div class="col">
               <div class="card-body">
                 Basic panel example
@@ -59,27 +54,28 @@
       </div>
 
       <div class="container">
-        <h1>Wallets</h1>
+        <div class="card-body">
+          <h1>Wallets</h1>
 
-        <attribute id="wallets_data_json" data="{{ wallet_data_json }}"></attribute>
+          <attribute id="wallets_data_json" data="{{ wallet_data_json }}"></attribute>
 
-        <div class="card">
-          <div class="row">
-            <div class="col">
-              <div class="card-body">
+          <div class="card">
+            <div class="row">
+              <div class="col">
+                <div class="card-body">
 
-                {% block container %}{% endblock %}
+                  {% block container %}{% endblock %}
+                </div>
               </div>
             </div>
+
           </div>
-
-
         </div>
 
       </div>
       <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
       <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.0.0/jquery.min.js"></script>
-      <script src="{{ url_for('static', filename='js/bootstrap.min.js') }}"></script>
+      <script src="{{ url_for('static', filename='js/bootstrap.js') }}"></script>
 </body>
 
 </html>
