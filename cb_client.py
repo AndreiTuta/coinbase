@@ -43,7 +43,7 @@ class CoinBaseClient:
         self.client = Client(
             details_dict['api_key'], details_dict['api_secret'])
         self.accounts = self.get_client_accounts()
-        self.rates_included = ['ETH', 'BTC', 'GBP', 'DAI']
+        self.rates_included = ['ETH', 'BTC', 'GBP', 'DAI', 'ALGO']
 
     # external use
     def get_client_wallets(self):

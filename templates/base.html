@@ -69,7 +69,8 @@
                 </p>
                 <div class="collapse multi-collapse" id="multiCollapseExample{{loop.index}}">                  
                   <div class="card card-body">
-                    {{wallet_news}}
+                    {{wallet_currency}}
+                    {{wallet_news [wallet_currency]}}
                   </div>
                 </div>
               {% endfor%}

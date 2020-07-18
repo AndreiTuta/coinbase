@@ -1,10 +1,12 @@
 from crypto_news_api import CryptoControlAPI
+from file_util import write_as_csv
 
 sswitcher = {
         "ETH": 'ethereum',
         "BTC": 'bitcoin',
         "DAI": 'dai',
-        "GBP": 'gbp'
+        "GBP": 'gbp',
+        "ALGO" : 'algorand'
     }
 
 class NewsClient:
@@ -12,12 +14,17 @@ class NewsClient:
         # Connect to the CryptoControl API
         self.client = CryptoControlAPI(api_key)
 
+    def get_coin_news(self, coin_code):
+        return self.client.getTopNewsByCoin(coin_code)
+
     def get_news(self, currencies):
         news = {}
         for coin in currencies:           
             if(coin !="GBP"):
                 coin_code = sswitcher[coin]
-                news[coin_code] =  self.client.getTopNewsByCoin(coin_code)
+                news_array = self.get_coin_news(coin_code)
+                news[coin] =  news_array
         
-        print(news.keys())
+        write_as_csv(news)
+        
         return news
