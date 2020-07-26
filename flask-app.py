@@ -5,6 +5,7 @@ import json
 import html
 
 from cb_client import CoinBaseClient
+from cb_chart_module import ChartModule
 from cb_news import NewsClient
 
 app = Flask(__name__)
@@ -33,6 +34,12 @@ def wallet_endpoint(currency,wallet_id):
     wallet_data = client.get_client_wallet(currency)
     
     return wallet_data[0]
+
+# Frontend endpoints
+@app.route('/chart')
+def chart():    
+    module = ChartModule()
+    return render_template('chartjs.html', labels = [1900, 1950, 1999, 2050, 2100], chart_module = module)
 
 
 if __name__ == "__main__":

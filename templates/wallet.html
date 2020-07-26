@@ -20,7 +20,7 @@
         {% set time_stamp =wallet['exachange_rates']['timestamp'] %}
 
 
-        {% if wallet_balance_amount|int > 0 %}
+        {% if wallet_balance_amount|int >= 0 %}
 
         <div class="alert alert-success">
             <div class="row">
@@ -46,12 +46,12 @@
                 </div>
             </div>
             <div class="row">
-                <div class="col"> Wallet buy price
+                <div class="col"> Coin buy price
                 </div>
                 <div class="col">
                     {{ wallet_buy_price}}
                 </div>
-                <div class="col"> Wallet sell price
+                <div class="col"> Coin sell price
                 </div>
                 <div class="col">
                     {{ wallet_sell_price}}
@@ -60,18 +60,63 @@
             <!-- TODO: Add scrolling sideways effect -->
             <div class="row">
                 {% for wc in wallet['exachange_rates']  %}
-                    {% if wc != wallet_currency%}
-                        {% if wc != 'timestamp'%}
-                            <div class="col">
-                                {{ wc }} - {{ wallet['exachange_rates'][wc]  }}
-                            </div>              
-                        {% endif %}     
-                    {% endif %}
+                {% if wc != wallet_currency%}
+                {% if wc != 'timestamp'%}
+                <div class="col">
+                    {{ wc }} - {{ wallet['exachange_rates'][wc]  }}
+                </div>
+                {% endif %}
+                {% endif %}
                 {% endfor %}
             </div>
         </div>
         {% endif %}
+
+
+        <canvas id="mixed-chart" width="400" height="400"></canvas>
+
     </div>
 </div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.5.0/Chart.min.js"></script>
+
+<script>new Chart(document.getElementById("mixed-chart"), {
+        type: 'bar',
+        data: {
+            labels: ["1900", "1950", "1999", "2050"],
+            datasets: [{
+                label: "Europe",
+                type: "line",
+                borderColor: "#8e5ea2",
+                data: [408, 547, 675, 734],
+                fill: false
+            }, {
+                label: "Africa",
+                type: "line",
+                borderColor: "#3e95cd",
+                data: [133, 221, 783, 2478],
+                fill: false
+            }, {
+                label: "Europe",
+                type: "bar",
+                backgroundColor: "rgba(0,0,0,0.2)",
+                data: [408, 547, 675, 734],
+            }, {
+                label: "Africa",
+                type: "bar",
+                backgroundColor: "rgba(0,0,0,0.2)",
+                backgroundColorHover: "#3e95cd",
+                data: [133, 221, 783, 2478]
+            }
+            ]
+        },
+        options: {
+            title: {
+                display: true,
+                text: 'Population growth (millions): Europe & Africa'
+            },
+            legend: { display: false }
+        }
+    });</script>
 {% endfor %}
 {% endblock %}

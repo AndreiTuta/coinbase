@@ -47,6 +47,7 @@ class CoinBaseClient:
 
     # external use
     def get_client_wallets(self):
+        print(self.get_wallets())
         return self.get_wallets()
 
     def get_client_wallet(self, coin):
