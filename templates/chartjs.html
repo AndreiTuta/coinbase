@@ -5,25 +5,30 @@
 
 
 <script>
-    var labels = {{chart_module.labels | safe}} ;
-    var datasets = [    
-    {% for submodule in chart_module.submodules  %}
-        {{submodule.data| safe }},
-    {% endfor %}
+    var labels = {{ chart_module.labels | safe}};
+    var datasets = [
+        {% for submodule in chart_module.submodules %}
+            {{ submodule.data | safe }},
+        {% endfor %}
     ];
-    
+
 
     var data = {
-    labels: labels,
-    datasets: datasets
-  };
+        labels: labels,
+        datasets: datasets
+    };
 
     var options = {
         title: {
             display: false,
             text: 'Population growth (millions): Europe & Africa'
         },
-        legend: { display: false }
+        legend: { display: false },
+        scales: {
+            xAxes: [{
+                stacked: true
+            }]
+        }
     };
 
     new Chart(document.getElementById("mixed-chart"), {

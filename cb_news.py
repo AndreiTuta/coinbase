@@ -36,32 +36,30 @@ def convert_covid_news(aList):
         for index in range(len(element)):
             province_data = element[index]
             print(province_data['date'])             
-            provinces.append(province_data['region']['province']) 
-            confirmed_data.append(province_data['confirmed'])
-            recovered_data.append(province_data['recovered'])
-            deaths_data.append(province_data['deaths'])
+            if province_data['region']['province'] != '':
+                provinces.append(province_data['region']['province']) 
+                confirmed_data.append(province_data['confirmed'])
+                recovered_data.append(province_data['recovered'])
+                deaths_data.append(province_data['deaths'])
     
     confirmed = {
         "label": 'Confirmed',
         "type": "bar",
-        "backgroundColor": "rgba(0,0,0,0.2)",
-        "backgroundColorHover": "#3e95cd",
+        # "backgroundColor": "#fce700",
         "data": confirmed_data,
         "fill" :"false"
     }
     recovered = {
         "label": 'Recovered',
         "type": "bar",
-        "backgroundColor": "rgba(0,0,0,0.2)",
-        "backgroundColorHover": "#3e95cd",
+        # "backgroundColor": "#2cdd76",
         "data": recovered_data,
         "fill" :"false"
     }
     death = {
         "label": 'Deaths',
         "type": "bar",
-        "backgroundColor": "rgba(0,0,0,0.2)",
-        "backgroundColorHover": "#3e95cd",
+        # "backgroundColor": "#ff0000",
         "data": deaths_data,
         "fill" :"false"
     }
