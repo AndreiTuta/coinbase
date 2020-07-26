@@ -37,9 +37,10 @@ def wallet_endpoint(currency,wallet_id):
 
 # Frontend endpoints
 @app.route('/chart')
-def chart():    
-    module = ChartModule()
-    return render_template('chartjs.html', labels = [1900, 1950, 1999, 2050, 2100], chart_module = module)
+def chart():
+    data = CovidClient().get_reports_since("2020-07-20")
+    module = ChartModule(data)
+    return render_template('chartjs.html', chart_module = module)
 
 
 if __name__ == "__main__":
