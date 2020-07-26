@@ -36,11 +36,11 @@ def wallet_endpoint(currency,wallet_id):
     return wallet_data[0]
 
 # Frontend endpoints
-@app.route('/chart')
-def chart():
-    data = CovidClient().get_reports_since("2020-07-20")
-    module = ChartModule(data)
-    return render_template('chartjs.html', chart_module = module)
+@app.route('/chart/<date>')
+def chart(date):
+    news_data = news_client.get_covid_news(date)
+    module = ChartModule(news_data)
+    return render_template('chartjs.html', chart_module = module, news_data_json = news_data)
 
 
 if __name__ == "__main__":

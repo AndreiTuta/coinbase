@@ -2,9 +2,15 @@
 <canvas id="mixed-chart" width="400" height="400"></canvas></body>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.5.0/Chart.min.js"></script>
 
+
+
 <script>
-    var labels = {{chart_module.labels}} ;
-    var datasets = {{chart_module.submodules | safe }}
+    var labels = {{chart_module.labels | safe}} ;
+    var datasets = [    
+    {% for submodule in chart_module.submodules  %}
+        {{submodule.data| safe }},
+    {% endfor %}
+    ];
     
 
     var data = {
@@ -14,10 +20,10 @@
 
     var options = {
         title: {
-            display: true,
+            display: false,
             text: 'Population growth (millions): Europe & Africa'
         },
-        legend: { display: true }
+        legend: { display: false }
     };
 
     new Chart(document.getElementById("mixed-chart"), {
