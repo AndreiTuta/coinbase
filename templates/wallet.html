@@ -22,6 +22,9 @@
 
         {% if wallet_balance_amount|int >= 0 %}
 
+        {% set outer_loop = loop %}
+        {{ outer_loop.index }}
+
         <div class="alert alert-success">
             <div class="row">
                 <div class="col">
@@ -57,66 +60,79 @@
                     {{ wallet_sell_price}}
                 </div>
             </div>
-            <!-- TODO: Add scrolling sideways effect -->
-            <div class="row">
-                {% for wc in wallet['exachange_rates']  %}
-                {% if wc != wallet_currency%}
-                {% if wc != 'timestamp'%}
-                <div class="col">
-                    {{ wc }} - {{ wallet['exachange_rates'][wc]  }}
+
+            <div class="row" >
+                <div class="col" >
+                    <div style="height: 300px">
+                        <canvas id="mixed-chart{{ outer_loop.index }}"></canvas>
+                      </div>   
+                    <!-- <div class="row">
+                        <div class="col">
+                            col
+                        </div>
+                        <div class="col">
+                            col
+                        </div>
+                    </div> -->
+
                 </div>
-                {% endif %}
-                {% endif %}
-                {% endfor %}
+                <!-- <div class="col">
+                    <div class="row">
+                        col
+                    </div>
+                    <div class="col">
+                        col
+                    </div>
+                    <div class="col">
+                        col
+                    </div>
+                </div> -->
+
             </div>
+
+            <!-- <div class="container">
+                <div class="row" id="exchange-rates">
+                    {% for wc in wallet['exachange_rates']  %}
+                    <div class="row" id="exchange-rate">
+                        {% if wc != wallet_currency and wc != 'timestamp'%}
+                        {{ wc }} - {{ wallet['exachange_rates'][wc]  }}
+                        {% endif %}
+                    </div>
+                    {% endfor %}
+                </div>
+            </div> -->
+
+            <!-- <canvas id="mixed-chart" width="400" height="400"></canvas> -->
+
         </div>
         {% endif %}
 
 
-        <canvas id="mixed-chart" width="400" height="400"></canvas>
+
 
     </div>
 </div>
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.5.0/Chart.min.js"></script>
-
-<script>new Chart(document.getElementById("mixed-chart"), {
-        type: 'bar',
-        data: {
-            labels: ["1900", "1950", "1999", "2050"],
-            datasets: [{
-                label: "Europe",
-                type: "line",
-                borderColor: "#8e5ea2",
-                data: [408, 547, 675, 734],
-                fill: false
-            }, {
-                label: "Africa",
-                type: "line",
-                borderColor: "#3e95cd",
-                data: [133, 221, 783, 2478],
-                fill: false
-            }, {
-                label: "Europe",
-                type: "bar",
-                backgroundColor: "rgba(0,0,0,0.2)",
-                data: [408, 547, 675, 734],
-            }, {
-                label: "Africa",
-                type: "bar",
-                backgroundColor: "rgba(0,0,0,0.2)",
-                backgroundColorHover: "#3e95cd",
-                data: [133, 221, 783, 2478]
-            }
-            ]
-        },
-        options: {
-            title: {
-                display: true,
-                text: 'Population growth (millions): Europe & Africa'
-            },
-            legend: { display: false }
-        }
-    });</script>
 {% endfor %}
 {% endblock %}
+
+
+
+
+
+
+
+
+
+<!-- <div class="row">
+    <div class="col">
+        <div class="row">
+            <div class="col">
+                col
+            </div>
+            <div class="col">
+                col
+            </div>
+        </div>
+
+    </div> -->

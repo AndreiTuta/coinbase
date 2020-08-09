@@ -45,21 +45,21 @@ def convert_covid_news(aList):
     confirmed = {
         "label": 'Confirmed',
         "type": "bar",
-        # "backgroundColor": "#fce700",
+        "backgroundColor": "#fce700",
         "data": confirmed_data,
         "fill" :"false"
     }
     recovered = {
         "label": 'Recovered',
         "type": "bar",
-        # "backgroundColor": "#2cdd76",
+        "backgroundColor": "#2cdd76",
         "data": recovered_data,
         "fill" :"false"
     }
     death = {
         "label": 'Deaths',
         "type": "bar",
-        # "backgroundColor": "#ff0000",
+        "backgroundColor": "#ff0000",
         "data": deaths_data,
         "fill" :"false"
     }
@@ -68,7 +68,6 @@ def convert_covid_news(aList):
     complete_news.append(recovered)
     complete_news.append(death)
     complete_news.append(provinces)
-    print(complete_news)
     return complete_news
 
 class NewsClient:

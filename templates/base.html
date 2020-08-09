@@ -114,7 +114,7 @@
           <div class="card-body">
             <h1>Wallets</h1>
 
-            <attribute id="wallets_data_json" data="{{ wallet_data_json }}"></attribute>
+            <!-- <attribute id="wallets_data_json" data="{{ wallet_data_json }}"></attribute> -->
 
             <div class="card">
               <div class="row">
@@ -142,8 +142,8 @@
   <script src="{{ url_for('static', filename='js/bootstrap.js') }}"></script>
   <script>
 
-    
- 
+
+
 
     var time = new Date().getTime();
     // 10 mins timer
@@ -161,6 +161,17 @@
 
     setTimeout(refresh, 10000);
   </script>
+
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.5.0/Chart.min.js"></script>
+
+  <script src="{{ url_for('static', filename='js/chartjs.js') }}"></script>
+
+  <script>
+
+    var chartsList = ["mixed-chart1", "mixed-chart2", "mixed-chart3"];
+
+    renderPage(document, chartsList)</script>
 </body>
 
 </html>
