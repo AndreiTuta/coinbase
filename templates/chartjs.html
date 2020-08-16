@@ -1,5 +1,6 @@
 {% block container %}
-<canvas id="mixed-chart" width="400" height="400"></canvas></body>
+<div>
+<canvas id="mixed-chart" width="400" height="400"></canvas></div>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.5.0/Chart.min.js"></script>
 
 
@@ -20,19 +21,33 @@
         datasets: datasets
     };
 
-    var options = {
+    var options = { maintainAspectRatio: false,
         title: {
-            display: false,
-            text: 'Population growth (millions): Europe & Africa'
+            display: true,
+            text: 'COVID-19 stats for UK'
         },
         legend: { display: false },
-        scales: {
-            xAxes: [{
-                stacked: true
-            }]
-        }
-    };
+                scales: {
+            x: {
+                stacked: false
+            },
+            y: [{
+                ticks: {
+                   callback: function(value, index, values) {
+                        return '$' + value;
+                    }
+                },
 
+                stacked: true,
+                scaleLabel: {
+                    display: true,
+                    labelString: '1k = 1000'
+                }
+            }]
+        },tooltips: {
+         enabled: true
+    }
+        };
     new Chart(document.getElementById("mixed-chart"), {
         type: 'bar',
         data: data,

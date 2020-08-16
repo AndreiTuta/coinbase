@@ -1,3 +1,3 @@
-flask
-coinbase
-crypto_news_api
+flask~=1.1.2
+coinbase~=2.1.0
+requests~=2.24.0

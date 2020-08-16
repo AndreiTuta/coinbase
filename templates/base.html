@@ -22,7 +22,7 @@
       <div class="container">
         <h1>Wallets analysis</h1>
 
-        <attribute id="wallets_data_json" data="{{ wallet_data_json }}"></attribute>
+        <div id="wallets_data_json" data="{{ wallet_data_json }}"></div>
 
         <div class="card">
           <div class="row">
@@ -149,7 +149,7 @@
 
 
     var time = new Date().getTime();
-    // 10 mins timer
+    // 10 minutes timer
     var timer = 60000 * 10
     $(document.body).bind("mousemove keypress", function (e) {
       time = new Date().getTime();

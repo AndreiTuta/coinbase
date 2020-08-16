@@ -1,6 +1,5 @@
 from crypto_news_api import CryptoControlAPI
-from file_util import write_as_csv
-from datetime import timedelta, date
+from datetime import timedelta
 
 import datetime
 import requests
@@ -36,7 +35,7 @@ def convert_covid_news(aList, chartType):
         # print(element)
         for index in range(len(element)):
             province_data = element[index]
-            if province_data['region']['province'] != '':
+            if province_data['region']['province'] != '' :
                 provinces.append(province_data['region']['province'])
                 confirmed_data.append(province_data['confirmed'])
                 recovered_data.append(province_data['recovered'])
@@ -45,23 +44,23 @@ def convert_covid_news(aList, chartType):
     confirmed = {
         "label": 'Confirmed',
         "type": chartType,
-        # "backgroundColor": "#fce700",
-        "data": confirmed_data,
-        "fill": "false"
+        "borderColor": "#fce700",
+        # "backgroundColor" : "red",
+        "data": confirmed_data,"fill":"true"
     }
     recovered = {
         "label": 'Recovered',
         "type": chartType,
-        # "backgroundColor": "#2cdd76",
-        "data": recovered_data,
-        "fill": "false"
+        "borderColor": "#2cdd76",
+        # "backgroundColor" : "red",
+        "data": recovered_data,"fill":"false"
     }
     death = {
         "label": 'Deaths',
         "type": chartType,
-        # "backgroundColor": "#ff0000",
-        "data": deaths_data,
-        "fill": "false"
+        "borderColor": "#ff0000",
+        # "backgroundColor" : "red",
+        "data": deaths_data, "fill":"false"
     }
 
     complete_news.append(confirmed)
@@ -93,16 +92,18 @@ def get_news(currencies):
     # return news
 
 
-def get_covid_news(start_date: str):
+def get_covid_news(start_date: str, iso: str, region: str):
     date_time_obj = datetime.datetime.strptime(start_date, '%Y-%m-%d')
+    isos = "&iso={}".format(iso) if iso > '' else ''
+    regions = "&region_province={}".format(region) if region > '' else ''
     news = []
     single_date = date_time_obj.date()
-    response = requests.request("GET", url="https://covid-api.com/api/reports?date={}&iso=GBR".format(
-        single_date.strftime("%Y-%m-%d")), headers=headers, data=payload)
+    response = requests.request("GET", url="https://covid-api.com/api/reports?date={}{}{}".format(
+        single_date.strftime("%Y-%m-%d"), isos, regions), headers=headers, data=payload)
     result = json.loads(response.text).get('data')
     news.append(result)
     # return response.text.encode('utf8')
-    news = convert_covid_news(news, "line")
+    news = convert_covid_news(news, "bar")
     print(news)
     return news
 

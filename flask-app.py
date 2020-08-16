@@ -39,7 +39,14 @@ def wallet_endpoint(currency):
 # Frontend endpoints
 @app.route('/chart/<date>')
 def chart(date):
-    news_data = get_covid_news(date)
+    news_data = get_covid_news(date, 'GBR', '')
+    module = ChartModule(news_data)
+    return render_template("chartjs.html", chart_module=module, news_data_json=news_data)
+
+
+@app.route('/chart/<date>/<region>')
+def chart_and_region(date, region=''):
+    news_data = get_covid_news(date, 'GBR', region)
     module = ChartModule(news_data)
     return render_template("chartjs.html", chart_module=module, news_data_json=news_data)
 
