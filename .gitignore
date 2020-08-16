@@ -2,6 +2,6 @@ config.ini
 .vscode/*
 .gitignore
 __pycache__/*
-results/*
+results
 venv
 static/js/node_modules
