@@ -30,7 +30,7 @@ class CoinBaseClient:
                     currency_pair=coin+'-'+'GBP')['amount'])
                 account_wallet.add_prices(
                     coinbase_buy_price, coinbase_sell_price)
-                #account_wallet.get_dates_UTC()
+                #account_wallet.get_dates_utc()
                 exachange_rates = self.client.get_exchange_rates(currency=coin)[
                     'rates']
                 account_wallet.add_rates(exachange_rates, self.rates_included)

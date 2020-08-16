@@ -66,8 +66,7 @@
 
               {% for wallet in wallets  %}
               {% set wallet_currency =wallet['currency'] %}
-              {% set wallet_news_body = wallet_news [wallet_currency] %}
-
+               {% set wallet_news_body = wallet_news [wallet_currency] %} 
               <p><button class="btn btn-primary" type="button" data-toggle="collapse"
                   data-target="#multiCollapseExample{{loop.index}}" aria-expanded="false"
                   aria-controls="multiCollapseExample{{loop.index}}">Toggle {{wallet_currency}} News</button>
@@ -76,25 +75,29 @@
 
               <div class="collapse multi-collapse" id="multiCollapseExample{{loop.index}}">
                 <div class="card card-body">
-                  <table>
-                    <TR>
-                      <TD class="c1"><IMG src="{{wallet_news_body['thumbnail']}}"></TD>
-                    </TR>
-                    <TR>
-                      <TD class="c2">{{wallet_news_body['sourceDomain']}}</TD>
-                    </TR>
-                    <TR>
-                      <TD class="c2">{{wallet_news_body['url']}}</TD>
-                    </TR>
-                    <TR>
-                      <TD class="c2">{{wallet_news_body['title']}}</TD>
-                    </TR>
+
+                  {% set x = 0 %}
+                  {% if x > 1 %}
+                   <table>
+                    <tr>
+                      <td class="c1"><img src="{{wallet_news_body['thumbnail']}}"></td>
+                    </tr>
+                    <tr>
+                      <td class="c2">{{wallet_news_body['sourceDomain']}}</td>
+                    </tr>
+                    <tr>
+                      <td class="c2">{{wallet_news_body['url']}}</td>
+                    </tr>
+                    <tr>
+                      <td class="c2">{{wallet_news_body['title']}}</td>
+                    </tr>
 
 
 
-                  </table>
-
-
+                  </table> 
+                  {% else %}
+<p>else</p>
+                  {% endif %}
                 </div>
               </div>
               <br />
