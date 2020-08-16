@@ -3,4 +3,5 @@ config.ini
 .gitignore
 __pycache__/*
 results/*
-/static/js/node_modules
+venv
+static/js/node_modules
