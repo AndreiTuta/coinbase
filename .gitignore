@@ -1,2 +1,6 @@
-/results/*
-env/
+config.ini
+.vscode/*
+.gitignore
+__pycache__/*
+results/*
+/static/js/node_modules
