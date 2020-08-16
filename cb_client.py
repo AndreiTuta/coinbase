@@ -30,7 +30,7 @@ class CoinBaseClient:
                     currency_pair=coin+'-'+'GBP')['amount'])
                 account_wallet.add_prices(
                     coinbase_buy_price, coinbase_sell_price)
-                #account_wallet.get_dates_UTC()
+                #account_wallet.get_dates_utc()
                 exachange_rates = self.client.get_exchange_rates(currency=coin)[
                     'rates']
                 account_wallet.add_rates(exachange_rates, self.rates_included)
@@ -43,10 +43,11 @@ class CoinBaseClient:
         self.client = Client(
             details_dict['api_key'], details_dict['api_secret'])
         self.accounts = self.get_client_accounts()
-        self.rates_included = ['ETH', 'BTC', 'GBP', 'DAI']
+        self.rates_included = ['ETH', 'BTC', 'GBP', 'DAI', 'ALGO']
 
     # external use
     def get_client_wallets(self):
+        print(self.get_wallets())
         return self.get_wallets()
 
     def get_client_wallet(self, coin):

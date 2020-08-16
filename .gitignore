@@ -1,0 +1,7 @@
+config.ini
+.vscode/*
+.gitignore
+__pycache__/*
+results
+venv
+static/js/node_modules
